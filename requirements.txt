@@ -4,3 +4,6 @@ pandas
 scikit-learn
 google-genai
 python-dotenv
+joblib
+streamlit
+requests
