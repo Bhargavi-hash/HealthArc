@@ -30,6 +30,10 @@ class UserData(BaseModel):
     Smoker: str; Alcohol_Consumption_per_Week: int
     Diabetic: str; Heart_Disease: str
 
+@app.get("/")
+def home():
+    return {"status": "HealthArc API is running!", "docs": "/docs"}
+
 @app.post("/analyze")
 async def analyze(user: UserData):
     # 1. ML Prediction

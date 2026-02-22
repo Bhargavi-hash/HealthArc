@@ -47,7 +47,7 @@ if st.button("Analyze My Lifestyle", use_container_width=True):
     
     try:
         with st.spinner("Our AI is analyzing..."):
-            res = requests.post("https://healtharc.onrender.com", json=payload).json()
+            res = requests.post("https://healtharc.onrender.com/analyze", json=payload).json()
             
         status = res['status']
         recommendations = res['recommendations']
