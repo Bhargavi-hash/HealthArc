@@ -2,12 +2,21 @@ import os
 import joblib
 from fastapi import FastAPI
 from pydantic import BaseModel
+import uvicorn
 from google import genai
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 load_dotenv() # Create a .env file with GEMINI_API_KEY=your_key
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # In production, replace with your streamlit URL
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load ML Assets
 model = joblib.load("lifestyle_model.joblib")
@@ -43,3 +52,8 @@ async def analyze(user: UserData):
     response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
     
     return {"status": status, "recommendations": response.text}
+
+if __name__ == "__main__":
+    # Get port from environment variable, default to 8000 for local dev
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
